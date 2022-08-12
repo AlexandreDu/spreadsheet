@@ -18,14 +18,14 @@ export const InputText = ({register, name, defaultValue, bgColor='', height='', 
     )
 }
 
-export const Checkbox = ({register, name, label, defaultValue, onChange}) => {
+export const Checkbox = ({register, name, label, id, onChange}) => {
 
     return (
         <div>
             <input 
                 {...register(name)}
                 type='checkbox' 
-                defaultValue={defaultValue}
+                defaultChecked={false}
                 className='mr-[0.25rem]'
                 onChange={onChange}
             />

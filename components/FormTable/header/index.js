@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Cell } from '../../tableComponents/Cell'
 import { Icon } from '../../icon'
 import { faCaretDown, faCaretUp, faFilter } from "@fortawesome/free-solid-svg-icons"
@@ -15,15 +15,15 @@ export const Header = ({dataHeader, handleSort, dataBody}) => {
     const [filtersVisibility, setFiltersVisibility] = useState({})
     const [columnList, setColumnList] = useState([])
 
-    const { handleSubmit, reset, control, formState: { errors }, register, getValues } = useForm()
+    const { handleSubmit, reset, control, formState: { errors }, register, getValues, watch } = useForm()
 
     const toggleFilter = (index) => {
        
         let filtersVisibilityCopy = _.cloneDeep(filtersVisibility)
         filtersVisibilityCopy[index] = !filtersVisibility[index]
-        // we close all the filters excep the one we want to open
+        // we close all the filters except the one we want to open
         for(const i in filtersVisibilityCopy) {
-         
+            
             filtersVisibilityCopy[i] = index.toString() === i ? filtersVisibilityCopy[i] : false
         }
 
@@ -37,10 +37,21 @@ export const Header = ({dataHeader, handleSort, dataBody}) => {
         setColumnList(columnListFormat)
     }
 
-    const onChange = () => {
-        console.log('getValues(): ', getValues())
+
+
+    // const watchAllFields = watch(); // watching every fields in the form
+    const onSubmit = (data) => {
+
+        
+        console.log('data', data)
+        
     }
+
+ 
+
     
+
+  
 
     return (
         dataHeader && (
@@ -74,7 +85,10 @@ export const Header = ({dataHeader, handleSort, dataBody}) => {
                                         register={register}
                                         isVisible={filtersVisibility[index]}
                                         list={columnList}
-                                        onChange={onChange}
+                                        handleSubmit={handleSubmit}
+                                        onSubmit={onSubmit}
+                                        
+                                       
                                     />
                                 </div>
                             </div>

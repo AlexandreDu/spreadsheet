@@ -82,21 +82,21 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                 {/* add button */}
                 <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => setIsVisible(true)}/>
                 <form>
-                    <table className='w-full table-fixed border-separate border-[0.25rem] border-slate-50 text-center rounded-[0.25rem] '>
-                        <Header 
-                            dataHeader={dataHeader}
-                            handleSort={handleSort}
-                            dataBody={dataBody}
-                        />
-                        <Body 
-                            dataBody={dataBody}
-                            handleDelete={handleDelete}
-                            handleEdit={handleEdit}
-                            handleConfirmEdit={handleConfirmEdit}
-                            isEdit={isEdit}
-                            register={register}
-                        />
-                    </table>
+                <table className='w-full table-fixed border-separate border-[0.25rem] border-slate-50 text-center rounded-[0.25rem] '>
+                    <Header 
+                        dataHeader={dataHeader}
+                        handleSort={handleSort}
+                        dataBody={dataBody}
+                    />
+                    <Body 
+                        dataBody={dataBody}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
+                        handleConfirmEdit={handleConfirmEdit}
+                        isEdit={isEdit}
+                        register={register}
+                    />
+                </table>
                 </form>
             </div>
             <Modal 
