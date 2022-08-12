@@ -56,7 +56,7 @@ const upload = multer({
         worksheets.forEach(worksheet => {
             const ws = workbook.getWorksheet(worksheet.name);
             ws.eachRow({ includeEmpty: true }, function(row, rowNumber) {
-                rows.push({rowValues: row.values, rowNumber: rowNumber})
+                rows.push({rowValues: row.values, id: uuidv4()})
               
               });
         })
@@ -71,13 +71,6 @@ const upload = multer({
     try {
       console.log('rows: ', rows)
         await fs.unlink(req.files[0].path)
-        // let rowsWithoutEmpty = rows.filter(row => {
-        //   return row.filter((cell, index) => {
-        //    console.log('index ', index)
-        //     return index !== 0
-        //   })
-        // })
-        // console.log('rowsWithoutEmpty: ', rowsWithoutEmpty)
         res.status(200).json({ rows: rows });
     } catch(err) {
         console.log('err catch during unlink file: ', err)

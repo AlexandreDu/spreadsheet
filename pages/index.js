@@ -30,15 +30,15 @@ export default function Home() {
         },
         data: formData
       })
-      let rowsWithoutEmpty = res.data.rows.map(({rowValues, rowNumber}) => {
+      let rowsWithoutEmpty = res.data.rows.map(({rowValues, id}) => {
         return {
           rowValues: rowValues.filter(cell => {
             return cell !== null
           }),
-          rowNumber
+          id
         }
       })
-      console.log('rowsWithoutEmpty: ', rowsWithoutEmpty)
+      
 
       const [header, ...body] = rowsWithoutEmpty
 

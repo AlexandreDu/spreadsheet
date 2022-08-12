@@ -6,27 +6,27 @@ import { InputText } from '../../formComponents'
 
 export const Body = ({dataBody, handleDelete, handleEdit, handleConfirmEdit, isEdit, register}) => {
 
-
+    console.log('dataBody: ', dataBody)
     return (
         dataBody && (
             <tbody>
                 <TransitionGroup component={null}>
-                    {dataBody.map(({rowValues, rowNumber}, index) => {
+                    {dataBody.map(({rowValues, id}, index) => {
                         return (
-                            <CSSTransition key={rowNumber} timeout={300} classNames={'fade'}>
-                                <tr key={rowNumber} className={`${index % 2 === 0 && 'bg-slate-50'}`}>
+                            <CSSTransition key={id} timeout={300} classNames={'fade'}>
+                                <tr key={id} className={`${index % 2 === 0 && 'bg-slate-50'}`}>
                                     {rowValues.map((rowValue, subIndex) => {
                                     return (
                                         <Cell key={subIndex}>
                                             <TransitionGroup component={null}>
-                                            {isEdit === rowNumber ? (
+                                            {isEdit === id ? (
                                                 // issue, transition does not work
                                                 <CSSTransition timeout={300} classNames={'fade'}>
                                                   
                                                     <InputText  
                                                         register={register}
                                                         defaultValue={rowValue}
-                                                        name={`field.${rowNumber}.${subIndex}`}
+                                                        name={`field.${id}.${subIndex}`}
                                                         bgColor={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
                                                     />
                                                   
@@ -43,19 +43,19 @@ export const Body = ({dataBody, handleDelete, handleEdit, handleConfirmEdit, isE
                                         </Cell>
                                     )
                                     })}
-                                    {isEdit === rowNumber ? (
+                                    {isEdit === id ? (
                                         
-                                        <Cell onClick={() => (handleConfirmEdit(rowNumber))}>
+                                        <Cell onClick={() => (handleConfirmEdit(id))}>
                                             <Icon color='text-blue-500' icon={faCheck}/>
                                         </Cell>
                                         
                                     ) : (
-                                        <Cell onClick={() => (handleEdit(rowNumber))}>
+                                        <Cell onClick={() => (handleEdit(id))}>
                                                 <Icon color='text-blue-500'  icon={faPen}/>
                                         </Cell>
                                     )}
                                     
-                                    <Cell onClick={() => (handleDelete(rowNumber))}>
+                                    <Cell onClick={() => (handleDelete(id))}>
                                             <Icon color='text-red-500' icon={faTrashCan}/>
                                     </Cell>
                                 </tr>

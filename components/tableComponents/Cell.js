@@ -11,7 +11,7 @@ export const Cell = ({as = 'td', color, onClick, children}) => {
 
     if(as === 'th') {
         componentToRender = (
-            <th className='rounded-[0.25rem] h-[5rem]' onClick={onClick}>
+            <th className='rounded-[0.25rem] h-[5rem] font-semibold' onClick={onClick}>
                 {children}
             </th>
         )
