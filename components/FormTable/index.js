@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react'
+import {useState, useCallback, useEffect} from 'react'
 import { Header } from './header'
 import { Modal } from '../modal'
 import { InputText } from '../formComponents'
@@ -56,6 +56,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
         setDataBody(dataBodyCopy)
     }
 
+    
    
 
     const handleAdd = () => {
@@ -75,6 +76,46 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
     const { handleSubmit: handleAddLine, reset: resetAddLine, control: controllAddLine, formState: { errors: errorsAddLine }, register: registerAddLine, getValues: getValuesAddLine } = useForm()
 
    
+    // filter
+    const [filterList, setFilterList] = useState([])
+    
+    const onChangeFilter = (e, label) => {
+        console.log(label)
+
+        let filterListCopy = [...filterList]
+        let indexToRemove = filterListCopy.indexOf(label)
+        if(indexToRemove !== -1) {
+            filterListCopy.splice(indexToRemove, 1)
+        } else {
+            filterListCopy.push(label)
+            
+        }
+
+        setFilterList(filterListCopy)
+
+    }
+
+    const [listToShow, setListToShow] = useState(dataBody)
+    useEffect(() => {
+        
+        if(!filterList) return
+        console.log('filterList: ', filterList)
+        if(filterList.length > 0) {
+           let filteredList = dataBody.filter(({rowValues}) => {
+                return rowValues.find(rowValue => {
+                   return filterList.includes(rowValue)
+                })
+            })
+            setListToShow(filteredList)
+           
+            return
+        }
+
+        if(filterList.length === 0) {
+            setListToShow(dataBody)
+        }
+    }, [filterList, dataBody])
+
 
     return (
         <div className='flex flex-col items-center  '>
@@ -87,9 +128,13 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                         dataHeader={dataHeader}
                         handleSort={handleSort}
                         dataBody={dataBody}
+                        onChangeFilter={onChangeFilter}
+                        filterList={filterList}
+                        setFilterList={setFilterList}
+
                     />
                     <Body 
-                        dataBody={dataBody}
+                        listToShow={listToShow}
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
                         handleConfirmEdit={handleConfirmEdit}

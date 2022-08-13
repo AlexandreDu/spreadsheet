@@ -4,14 +4,14 @@ import { faPen, faTrashCan, faCheck } from "@fortawesome/free-solid-svg-icons"
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { InputText } from '../../formComponents'
 
-export const Body = ({dataBody, handleDelete, handleEdit, handleConfirmEdit, isEdit, register}) => {
+export const Body = ({listToShow, handleDelete, handleEdit, handleConfirmEdit, isEdit, register}) => {
 
-    console.log('dataBody: ', dataBody)
+    console.log('listToShow: ', listToShow)
     return (
-        dataBody && (
+        listToShow && (
             <tbody>
                 <TransitionGroup component={null}>
-                    {dataBody.map(({rowValues, id}, index) => {
+                    {listToShow.map(({rowValues, id}, index) => {
                         return (
                             <CSSTransition key={id} timeout={300} classNames={'fade'}>
                                 <tr key={id} className={`${index % 2 === 0 && 'bg-slate-50'}`}>

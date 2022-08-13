@@ -1,4 +1,4 @@
-
+import { ellipsis } from "../../utility/ellipsis"
 
 export const InputText = ({register, name, defaultValue, bgColor='', height='', align='text-center'}) => {
 
@@ -18,18 +18,23 @@ export const InputText = ({register, name, defaultValue, bgColor='', height='', 
     )
 }
 
-export const Checkbox = ({register, name, label, id, onChange}) => {
+export const Checkbox = ({register, name, label, onChange}) => {
+
+    let props = {}
+    if(register) props = {...register(name)}
+
+    let EllipsedLabel = ellipsis(label)
 
     return (
         <div>
             <input 
-                {...register(name)}
+                {...props}
                 type='checkbox' 
                 defaultChecked={false}
                 className='mr-[0.25rem]'
-                onChange={onChange}
+                onChange={(e) => onChange(e, label)}
             />
-            <label className="font-normal">{label}</label>
+            <label className="font-normal">{EllipsedLabel}</label>
         </div>
     )
 }

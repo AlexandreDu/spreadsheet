@@ -5,9 +5,9 @@ import { faCaretDown, faCaretUp, faFilter } from "@fortawesome/free-solid-svg-ic
 import { useModal } from '../../../hooks/useModal'
 import { useForm } from 'react-hook-form'
 import { Filter } from '../../filter'
-import _ from 'lodash'
+import _, { filter } from 'lodash'
 
-export const Header = ({dataHeader, handleSort, dataBody}) => {
+export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, filterList, setFilterList}) => {
 
 
     //for filter
@@ -39,19 +39,8 @@ export const Header = ({dataHeader, handleSort, dataBody}) => {
 
 
 
-    // const watchAllFields = watch(); // watching every fields in the form
-    const onSubmit = (data) => {
-
-        
-        console.log('data', data)
-        
-    }
-
+   
  
-
-    
-
-  
 
     return (
         dataHeader && (
@@ -82,13 +71,11 @@ export const Header = ({dataHeader, handleSort, dataBody}) => {
                                         onClick={() => toggleFilter(index)}
                                     />
                                     <Filter 
-                                        register={register}
                                         isVisible={filtersVisibility[index]}
                                         list={columnList}
-                                        handleSubmit={handleSubmit}
-                                        onSubmit={onSubmit}
-                                        
-                                       
+                                        onChange={onChangeFilter}
+                                        filterList={filterList}
+                                        setFilterList={setFilterList}
                                     />
                                 </div>
                             </div>
