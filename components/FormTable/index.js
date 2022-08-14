@@ -89,6 +89,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
         } else {
             filterListCopy.push(label)
             
+            
         }
 
         setIsChecked(filterListCopy)
@@ -130,7 +131,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                             dataBody={dataBody}
                             onChangeFilter={onChangeFilter}
                             isChecked={isChecked}
-                            setIsChecked={setIsChecked}
+                            listToShow={listToShow}
 
                         />
                         <Body 

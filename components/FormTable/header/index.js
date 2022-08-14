@@ -7,29 +7,20 @@ import { useForm } from 'react-hook-form'
 import { Filter } from '../../filter'
 import _, { filter } from 'lodash'
 
-export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChecked, setIsChecked}) => {
+export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChecked, listToShow}) => {
 
 
     //for filter
     const [isVisible, setIsVisible, toggle] = useModal()
-    const [filtersVisibility, setFiltersVisibility] = useState({})
+    const [filterOpenedIndex, setFilterOpenedIndex] = useState(null)
     const [columnList, setColumnList] = useState({})
 
     const { handleSubmit, reset, control, formState: { errors }, register, getValues, watch } = useForm()
 
     const toggleFilter = (index) => {
        
-        let filtersVisibilityCopy = _.cloneDeep(filtersVisibility)
-        filtersVisibilityCopy[index] = !filtersVisibility[index]
-        // we close all the filters except the one we want to open
-        for(const i in filtersVisibilityCopy) {
-            
-            filtersVisibilityCopy[i] = index.toString() === i ? filtersVisibilityCopy[i] : false
-        }
-
-
-        setFiltersVisibility(filtersVisibilityCopy)
-
+        
+        setFilterOpenedIndex(index)
         
        
     }
@@ -44,40 +35,31 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
         console.log('dataHeader: ', typeof dataHeader)
         dataHeader['rowValues'].forEach(cell => cellsQuantity++)
 
-        let columnListFormat = {}
+        let columnsListFormat = {}
         for(let i = 0; i < cellsQuantity; i++) {
-            columnListFormat[i] = dataBodyCopy.map(({rowValues, id}) => (
+            columnsListFormat[i] = dataBodyCopy.map(({rowValues, id}) => (
                 {label:rowValues[i], value: rowValues[i], checked: false, id}
             ))
         }
 
-        setColumnList(columnListFormat)
+        setColumnList(columnsListFormat)
 
         
 
     }, [dataBody && dataBody.length])
 
-    useEffect(() => {
-
-        console.log('columnList', columnList)
-    }, [columnList])
-
+  
 
     useEffect(() => {
-
+        console.log('filterOpenedIndex: ', filterOpenedIndex)
         if(!dataBody) return
-
-        let filtersVisibilityCopy = _.cloneDeep(filtersVisibility)
-        let openedFilterIndex
-        for(const index in filtersVisibilityCopy) {
-            if(filtersVisibilityCopy[index] === true) openedFilterIndex = index
-        }
+        if(filterOpenedIndex === null) return
        
         let columnListCopy = _.cloneDeep(columnList)
         
-
         
-        columnListCopy[openedFilterIndex] = columnListCopy[openedFilterIndex].map(item => {
+        columnListCopy[filterOpenedIndex] = columnListCopy[filterOpenedIndex].map(item => {
+            console.log('item.value is included in isChecked: ', isChecked.includes(item.value))
             let checked
             isChecked.includes(item.value) ? checked = true : checked = false
 
@@ -91,14 +73,6 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
     }, [isChecked.length])
 
     
-//columnList devrait être un object avec comme props index et comme valeur array
-   
-
-
-
-
-   
- 
 
     return (
         dataHeader && (
@@ -129,7 +103,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
                                         onClick={() => toggleFilter(index)}
                                     />
                                     <Filter 
-                                        isVisible={filtersVisibility[index]}
+                                        isVisible={filterOpenedIndex === index}
                                         list={columnList[index]}
                                         onChange={onChangeFilter}
                                     />
