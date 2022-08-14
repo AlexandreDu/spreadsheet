@@ -7,10 +7,12 @@ import _ from 'lodash'
 
 export const Filter = ({isVisible, list, onChange}) => {
 
+    console.log('list: ', list)
     
     const [deduplicatedList, setDeduplicatedList] = useState([])
 
     useEffect(() => {
+        if(!list) return
         let listCopy = _.cloneDeep(list)
         let listDedup = listCopy.filter((item, index, array) => {
             return index === array.findIndex(elem => item.label === elem.label)

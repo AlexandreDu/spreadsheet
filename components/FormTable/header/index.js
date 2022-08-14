@@ -13,7 +13,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
     //for filter
     const [isVisible, setIsVisible, toggle] = useModal()
     const [filtersVisibility, setFiltersVisibility] = useState({})
-    const [columnList, setColumnList] = useState([])
+    const [columnList, setColumnList] = useState({})
 
     const { handleSubmit, reset, control, formState: { errors }, register, getValues, watch } = useForm()
 
@@ -30,23 +30,70 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
 
         setFiltersVisibility(filtersVisibilityCopy)
 
-        if(columnList.length === 0) {
-            let dataBodyCopy = _.cloneDeep(dataBody)
-            let columnListFormat = dataBodyCopy.map(({rowValues, id}) => (
-                {label:rowValues[index], value: rowValues[index], checked: false, id}
-            ))
-            
-            setColumnList(columnListFormat)
-            return
-        }
-
-        
-
-        
-
         
        
     }
+    useEffect(() => {
+
+        if(!dataBody) return
+        if(!dataHeader) return
+        let dataBodyCopy = _.cloneDeep(dataBody)
+
+        //we look for the quantity of cells in a row
+        let cellsQuantity = 0
+        console.log('dataHeader: ', typeof dataHeader)
+        dataHeader['rowValues'].forEach(cell => cellsQuantity++)
+
+        let columnListFormat = {}
+        for(let i = 0; i < cellsQuantity; i++) {
+            columnListFormat[i] = dataBodyCopy.map(({rowValues, id}) => (
+                {label:rowValues[i], value: rowValues[i], checked: false, id}
+            ))
+        }
+
+        setColumnList(columnListFormat)
+
+        
+
+    }, [dataBody && dataBody.length])
+
+    useEffect(() => {
+
+        console.log('columnList', columnList)
+    }, [columnList])
+
+
+    useEffect(() => {
+
+        if(!dataBody) return
+
+        let filtersVisibilityCopy = _.cloneDeep(filtersVisibility)
+        let openedFilterIndex
+        for(const index in filtersVisibilityCopy) {
+            if(filtersVisibilityCopy[index] === true) openedFilterIndex = index
+        }
+       
+        let columnListCopy = _.cloneDeep(columnList)
+        
+
+        
+        columnListCopy[openedFilterIndex] = columnListCopy[openedFilterIndex].map(item => {
+            let checked
+            isChecked.includes(item.value) ? checked = true : checked = false
+
+            return (
+                {...item, checked}
+            )
+        })
+
+        setColumnList(columnListCopy)
+
+    }, [isChecked.length])
+
+    
+//columnList devrait être un object avec comme props index et comme valeur array
+   
+
 
 
 
@@ -83,7 +130,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
                                     />
                                     <Filter 
                                         isVisible={filtersVisibility[index]}
-                                        list={columnList}
+                                        list={columnList[index]}
                                         onChange={onChangeFilter}
                                     />
                                 </div>
