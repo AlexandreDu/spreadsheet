@@ -18,7 +18,7 @@ export const InputText = ({register, name, defaultValue, bgColor='', height='', 
     )
 }
 
-export const Checkbox = ({register, name, label, onChange}) => {
+export const Checkbox = ({register, name, label, onChange, checked}) => {
 
     let props = {}
     if(register) props = {...register(name)}
@@ -33,8 +33,10 @@ export const Checkbox = ({register, name, label, onChange}) => {
                 defaultChecked={false}
                 className='mr-[0.25rem]'
                 onChange={(e) => onChange(e, label)}
+                checked={checked}
+                title={label}
             />
-            <label className="font-normal">{EllipsedLabel}</label>
+            <label title={label} className="font-normal">{EllipsedLabel}</label>
         </div>
     )
 }

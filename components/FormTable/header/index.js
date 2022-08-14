@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { Filter } from '../../filter'
 import _, { filter } from 'lodash'
 
-export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, filterList, setFilterList}) => {
+export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChecked, setIsChecked}) => {
 
 
     //for filter
@@ -30,11 +30,22 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, filter
 
         setFiltersVisibility(filtersVisibilityCopy)
 
-        let columnListFormat = dataBody.map(({rowValues, id}) => (
-            {label:rowValues[index], value: false, id}
-        ))
+        if(columnList.length === 0) {
+            let dataBodyCopy = _.cloneDeep(dataBody)
+            let columnListFormat = dataBodyCopy.map(({rowValues, id}) => (
+                {label:rowValues[index], value: rowValues[index], checked: false, id}
+            ))
+            
+            setColumnList(columnListFormat)
+            return
+        }
+
         
-        setColumnList(columnListFormat)
+
+        
+
+        
+       
     }
 
 
@@ -74,8 +85,6 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, filter
                                         isVisible={filtersVisibility[index]}
                                         list={columnList}
                                         onChange={onChangeFilter}
-                                        filterList={filterList}
-                                        setFilterList={setFilterList}
                                     />
                                 </div>
                             </div>

@@ -77,12 +77,12 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
    
     // filter
-    const [filterList, setFilterList] = useState([])
+    const [isChecked, setIsChecked] = useState([])
     
     const onChangeFilter = (e, label) => {
         console.log(label)
 
-        let filterListCopy = [...filterList]
+        let filterListCopy = [...isChecked]
         let indexToRemove = filterListCopy.indexOf(label)
         if(indexToRemove !== -1) {
             filterListCopy.splice(indexToRemove, 1)
@@ -91,19 +91,19 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
             
         }
 
-        setFilterList(filterListCopy)
+        setIsChecked(filterListCopy)
 
     }
 
     const [listToShow, setListToShow] = useState(dataBody)
     useEffect(() => {
         
-        if(!filterList) return
-        console.log('filterList: ', filterList)
-        if(filterList.length > 0) {
+        if(!isChecked) return
+        console.log('isChecked: ', isChecked)
+        if(isChecked.length > 0) {
            let filteredList = dataBody.filter(({rowValues}) => {
                 return rowValues.find(rowValue => {
-                   return filterList.includes(rowValue)
+                   return isChecked.includes(rowValue)
                 })
             })
             setListToShow(filteredList)
@@ -111,10 +111,10 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
             return
         }
 
-        if(filterList.length === 0) {
+        if(isChecked.length === 0) {
             setListToShow(dataBody)
         }
-    }, [filterList, dataBody])
+    }, [isChecked, dataBody])
 
 
     return (
@@ -123,25 +123,25 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                 {/* add button */}
                 <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => setIsVisible(true)}/>
                 <form>
-                <table className='w-full table-fixed border-separate border-[0.25rem] border-slate-50 text-center rounded-[0.25rem] '>
-                    <Header 
-                        dataHeader={dataHeader}
-                        handleSort={handleSort}
-                        dataBody={dataBody}
-                        onChangeFilter={onChangeFilter}
-                        filterList={filterList}
-                        setFilterList={setFilterList}
+                    <table className='w-full table-fixed border-separate border-[0.25rem] border-slate-50 text-center rounded-[0.25rem] '>
+                        <Header 
+                            dataHeader={dataHeader}
+                            handleSort={handleSort}
+                            dataBody={dataBody}
+                            onChangeFilter={onChangeFilter}
+                            isChecked={isChecked}
+                            setIsChecked={setIsChecked}
 
-                    />
-                    <Body 
-                        listToShow={listToShow}
-                        handleDelete={handleDelete}
-                        handleEdit={handleEdit}
-                        handleConfirmEdit={handleConfirmEdit}
-                        isEdit={isEdit}
-                        register={register}
-                    />
-                </table>
+                        />
+                        <Body 
+                            listToShow={listToShow}
+                            handleDelete={handleDelete}
+                            handleEdit={handleEdit}
+                            handleConfirmEdit={handleConfirmEdit}
+                            isEdit={isEdit}
+                            register={register}
+                        />
+                    </table>
                 </form>
             </div>
             <Modal 
