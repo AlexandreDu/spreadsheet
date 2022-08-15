@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormUpload } from '../components/formUpload'
 import { FormTable } from '../components/FormTable'
 import { FullPageModal } from '../components/modals'
@@ -18,9 +18,9 @@ export default function Home() {
   const {register, handleSubmit } = useForm()
 
   const onSubmit = async (data) => {
-   
-    let formData = new FormData()
     
+    let formData = new FormData()
+    console.log('data.files', data.files[0])
     formData.append('filestoupload', data.files[0])
 
     try {
@@ -57,6 +57,18 @@ export default function Home() {
     }
   }
 
+  const [fileName, setFileName] = useState(null)
+
+
+
+  const onChange = (e) => {
+    
+    if(e.target.files.length === 0) return
+   
+    setFileName(e.target.files[0].name)
+  }
+
+
   //modal
   const [isModalVisible, setIsModalVisible, toggle] = useModal()
 
@@ -67,6 +79,7 @@ export default function Home() {
   const handleClickCross = () => {
     setDataBody(null)
     setDataHeader(null)
+    setFileName(null)
     setIsModalVisible(false)
   }
 
@@ -80,7 +93,9 @@ export default function Home() {
         <FormUpload  
           name='files'
           onSubmit={handleSubmit(onSubmit)}
+          onChange={onChange}
           register={register}
+          fileName={fileName}
         />
       )}
       

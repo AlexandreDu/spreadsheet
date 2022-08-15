@@ -115,7 +115,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
         if(isChecked.length === 0) {
             setListToShow(dataBody)
         }
-    }, [isChecked, dataBody])
+    }, [isChecked])
 
 
     return (

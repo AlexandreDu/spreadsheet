@@ -2,8 +2,9 @@ import { Icon } from "../../icon"
 import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons"
 
 
-export const UploadArea = () => {
+export const UploadArea = ({fileName}) => {
 
+    console.log('fileName upoad area: ', fileName)
     
 
     return (
@@ -25,8 +26,20 @@ export const UploadArea = () => {
                 </svg>
                
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer flex flex-col items-center">
-                    <Icon color='text-blue-500 text-2xl' icon={faFileCirclePlus} />
-                    <div className="color-red">Select or drag a xlsx file</div>
+                    {fileName ? (
+                        <>
+                            {fileName}
+                        </>
+                    ) : (
+                        <>
+                        <Icon 
+                            color='text-blue-500 text-2xl' 
+                            icon={faFileCirclePlus} 
+                        />
+                        <div>Select or drag a xlsx file</div>
+                        </>
+                    )}
+                    
                 </div>
                 
             </label>
