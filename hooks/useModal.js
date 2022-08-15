@@ -5,6 +5,7 @@ export const useModal = () => {
 
     const toggle = () => {
         setIsVisible(prevState => !prevState)
+        
     }
 
     return [isVisible, setIsVisible, toggle]

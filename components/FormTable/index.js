@@ -122,9 +122,15 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
         <div className='flex flex-col items-center  '>
             <div className='w-3/4 flex flex-col items-end'>
                 {/* add button */}
-                <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => setIsVisible(true)}/>
+                {dataHeader && (
+                    <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => {
+                        document.body.style.overflow = 'hidden'
+                        setIsVisible(true)
+                    }}/>
+                )}
+                
                 <form>
-                    <table className='w-full table-fixed border-separate border-[0.25rem] border-slate-50 text-center rounded-[0.25rem] '>
+                    <table className='w-full table-fixed border-separate   text-center rounded-[0.25rem] '>
                         <Header 
                             dataHeader={dataHeader}
                             handleSort={handleSort}

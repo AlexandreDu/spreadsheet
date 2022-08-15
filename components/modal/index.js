@@ -13,7 +13,10 @@ export const Modal = ({isVisible, setIsVisible, title, content, buttonLabel, onC
             <div className=' bg-slate-500/50 fixed top-0 bottom-0 left-0 right-0'>
                 <div className={` w-1/4 bg-slate-50 rounded-lg absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%] p-[1rem] `}>
                     <div className='text-right'>
-                        <Icon color='text-blue-500 text-2xl' icon={faXmark} onClick={() => setIsVisible(false)}/>
+                        <Icon color='text-blue-500 text-2xl' icon={faXmark} onClick={() => {
+                            document.body.style.overflow = 'auto'
+                            setIsVisible(false)
+                        }}/>
                     </div>
                     {/* title */}
                     <div className="text-center">
