@@ -14,6 +14,21 @@
   transition: all 200ms;
 }
 
+.vertical-translate-enter {
+  transform: translateY(100vh);
+}
+.vertical-translate-enter-active {
+  transform: translateY(0);
+  transition: all 450ms ease-in-out;
+}
+.vertical-translate-exit {
+  transform: translateY(0);
+}
+.vertical-translate-exit-active {
+  transform: translateY(100vh);
+  transition: all 450ms ease-out;
+}
+
 
 
 @tailwind base;

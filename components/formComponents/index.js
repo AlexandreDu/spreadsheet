@@ -40,9 +40,9 @@ export const Checkbox = ({register, name, label, onChange, checked}) => {
     )
 }
 
-export const SubmitButton = ({bgColor = 'bg-blue-500', children}) => {
+export const SubmitButton = ({bgColor = 'bg-blue-500', className='', children}) => {
 
-    let className = "rounded text-white px-[0.725rem] py-[0.725rem] cursor-pointer"
+    className += " rounded text-white px-[0.725rem] py-[0.725rem] cursor-pointer"
     className += ` ${bgColor}`   
     return (
         <input 

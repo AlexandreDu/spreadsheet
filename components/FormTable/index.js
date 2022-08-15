@@ -1,6 +1,6 @@
 import {useState, useCallback, useEffect} from 'react'
 import { Header } from './header'
-import { Modal } from '../modal'
+import { Modal } from '../modals'
 import { InputText } from '../formComponents'
 import { useForm } from 'react-hook-form'
 import { useModal } from '../../hooks/useModal'
