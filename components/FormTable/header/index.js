@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { Filter } from '../../filter'
 import _, { filter } from 'lodash'
 
-export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChecked, listToShow}) => {
+export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChecked}) => {
 
 
     //for filter
@@ -18,13 +18,20 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
     const { handleSubmit, reset, control, formState: { errors }, register, getValues, watch } = useForm()
 
     const toggleFilter = (index) => {
-       
-        
+       //if the filter is already open and we click on it again, we close it
+        if(index === filterOpenedIndex) {
+            setFilterOpenedIndex(null)
+            return
+        }
+
         setFilterOpenedIndex(index)
         
        
     }
+
+    //to build each filter list with initial state
     useEffect(() => {
+     
 
         if(!dataBody) return
         if(!dataHeader) return
@@ -48,8 +55,10 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
 
     }, [dataBody && dataBody.length])
 
-  
 
+
+  
+    //each time a checbox is checked or unchecked, we set the checked to the corresponding value
     useEffect(() => {
         console.log('filterOpenedIndex: ', filterOpenedIndex)
         if(!dataBody) return

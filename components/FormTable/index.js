@@ -100,7 +100,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
     useEffect(() => {
         
         if(!isChecked) return
-        console.log('isChecked: ', isChecked)
+       
         if(isChecked.length > 0) {
            let filteredList = dataBody.filter(({rowValues}) => {
                 return rowValues.find(rowValue => {
@@ -131,7 +131,6 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                             dataBody={dataBody}
                             onChangeFilter={onChangeFilter}
                             isChecked={isChecked}
-                            listToShow={listToShow}
 
                         />
                         <Body 

@@ -1,6 +1,6 @@
 import { CSSTransition } from 'react-transition-group'
 import { Icon } from '../icon'
-import {Button} from '../button'
+import { Button } from '../buttons'
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
 
 export const Modal = ({isVisible, setIsVisible, title, content, buttonLabel, onClick, children}) => {

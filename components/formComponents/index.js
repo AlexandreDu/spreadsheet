@@ -30,7 +30,6 @@ export const Checkbox = ({register, name, label, onChange, checked}) => {
             <input 
                 {...props}
                 type='checkbox' 
-                defaultChecked={false}
                 className='mr-[0.25rem]'
                 onChange={(e) => onChange(e, label)}
                 checked={checked}
@@ -38,6 +37,19 @@ export const Checkbox = ({register, name, label, onChange, checked}) => {
             />
             <label title={label} className="font-normal">{EllipsedLabel}</label>
         </div>
+    )
+}
+
+export const SubmitButton = ({bgColor = 'bg-blue-500', children}) => {
+
+    let className = "rounded text-white px-[0.725rem] py-[0.725rem] cursor-pointer"
+    className += ` ${bgColor}`   
+    return (
+        <input 
+            className={className}
+            value={children}
+            type="submit"
+        />
     )
 }
 

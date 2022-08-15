@@ -10,3 +10,4 @@ export const Button = ({bgColor = 'bg-blue-500', children, onClick}) => {
         </button>
     )
 }
+

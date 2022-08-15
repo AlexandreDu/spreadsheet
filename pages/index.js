@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import { FormUpload } from '../components/formUpload'
 import { FormTable } from '../components/FormTable'
+import { SubmitButton } from '../components/formComponents'
 import {useForm } from 'react-hook-form'
 import axios from 'axios'
 import { apiUrl } from '../apiUrl'
@@ -57,10 +59,15 @@ export default function Home() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      {/* <form onSubmit={handleSubmit(onSubmit)}>
         <input {...register('files', { required: true })} type='file' />
-        <input type='submit' value='submit' />
-      </form>
+        <SubmitButton>Submit</SubmitButton>
+      </form> */}
+      <FormUpload  
+        name='files'
+        onSubmit={handleSubmit(onSubmit)}
+        register={register}
+      />
       {error && error}
       <FormTable 
         dataHeader={dataHeader}
@@ -71,7 +78,3 @@ export default function Home() {
     </>
   )
 }
-
-        // onUploadProgress: (event) => {
-        //   console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
-        // },
