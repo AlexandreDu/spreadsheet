@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FormUpload } from '../components/formUpload'
 import { FormTable } from '../components/FormTable'
 import { FullPageModal } from '../components/modals'
@@ -12,6 +12,7 @@ export default function Home() {
   const [dataHeader, setDataHeader] = useState(null)
   const [dataBody, setDataBody] = useState(null)
 
+
   
   const [error, setError] = useState(null)
 
@@ -20,7 +21,7 @@ export default function Home() {
   const onSubmit = async (data) => {
     
     let formData = new FormData()
-    console.log('data.files', data.files[0])
+    
     formData.append('filestoupload', data.files[0])
 
     try {

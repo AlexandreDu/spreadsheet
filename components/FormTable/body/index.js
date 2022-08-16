@@ -1,20 +1,36 @@
+
 import { Cell } from '../../tableComponents/Cell'
 import { Icon } from '../../icon'
 import { faPen, faTrashCan, faCheck } from "@fortawesome/free-solid-svg-icons"
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { InputText } from '../../formComponents'
 
-export const Body = ({listToShow, handleDelete, handleEdit, handleConfirmEdit, isEdit, register}) => {
+export const Body = ({dataBody, isChecked, handleDelete, handleEdit, handleConfirmEdit, isEdit, register}) => {
 
-    console.log('listToShow: ', listToShow)
+  
+
+    const filteredList = () => {
+        if(isChecked.length > 0) {
+            return dataBody.filter(({rowValues}) => {
+                return rowValues.find(rowValue => {
+                   return isChecked.includes(rowValue)
+                })
+            })
+        } else {
+            return dataBody
+        }
+        
+    }
+
+
     return (
-        listToShow && (
+        dataBody && (
             <tbody>
                 <TransitionGroup component={null}>
-                    {listToShow.map(({rowValues, id}, index) => {
+                    {filteredList().map(({rowValues, id}, index) => {
                         return (
                             <CSSTransition key={id} timeout={300} classNames={'fade'}>
-                                <tr key={id} className={`${index % 2 === 0 && 'bg-slate-50'}`}>
+                                <tr key={id} className={`${index % 2 === 0 && 'bg-slate-100'}`}>
                                     {rowValues.map((rowValue, subIndex) => {
                                     return (
                                         <Cell key={subIndex}>
@@ -27,7 +43,7 @@ export const Body = ({listToShow, handleDelete, handleEdit, handleConfirmEdit, i
                                                         register={register}
                                                         defaultValue={rowValue}
                                                         name={`field.${id}.${subIndex}`}
-                                                        bgColor={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
+                                                        bgColor={index % 2 === 0 ? 'bg-white' : 'bg-slate-100'}
                                                     />
                                                   
                                                 </CSSTransition>

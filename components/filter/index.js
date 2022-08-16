@@ -1,24 +1,14 @@
-import { useState, useEffect } from 'react'
+
 import { CSSTransition } from 'react-transition-group'
 import { Checkbox } from '../formComponents'
-import { ellipsis } from '../../utility/ellipsis'
+import { getDeduplicated } from '../../utility/getDeduplicated'
 import _ from 'lodash'
 
 export const Filter = ({isVisible, list, onChange}) => {
 
     
     
-    const [deduplicatedList, setDeduplicatedList] = useState([])
-
-    useEffect(() => {
-        if(!list) return
-        let listCopy = _.cloneDeep(list)
-        let listDedup = listCopy.filter((item, index, array) => {
-            return index === array.findIndex(elem => item.label === elem.label)
-        })
-
-        setDeduplicatedList(listDedup)
-    }, [list])
+   
     
     return (
         <CSSTransition in={isVisible} timeout={300} classNames='fade' unmountOnExit>
@@ -26,7 +16,7 @@ export const Filter = ({isVisible, list, onChange}) => {
                 <div className='w-4/5 p-[0.5rem] flex flex-col items-start'>
                     
                     
-                    {deduplicatedList.map(({label, id, value, checked}) => (
+                    {getDeduplicated(list, 'label').map(({label, id, value, checked}) => (
                         <Checkbox 
                             key={id}
                             name={id}

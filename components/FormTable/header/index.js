@@ -5,15 +5,14 @@ import { faCaretDown, faCaretUp, faFilter } from "@fortawesome/free-solid-svg-ic
 import { useModal } from '../../../hooks/useModal'
 import { useForm } from 'react-hook-form'
 import { Filter } from '../../filter'
-import _, { filter } from 'lodash'
+
 
 export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChecked}) => {
 
 
-    //for filter
-    const [isVisible, setIsVisible, toggle] = useModal()
+   
     const [filterOpenedIndex, setFilterOpenedIndex] = useState(null)
-    const [columnList, setColumnList] = useState({})
+
 
     const { handleSubmit, reset, control, formState: { errors }, register, getValues, watch } = useForm()
 
@@ -29,58 +28,22 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
        
     }
 
-    //to build each filter list with initial state
-    useEffect(() => {
-     
+ 
 
-        if(!dataBody) return
-        if(!dataHeader) return
+    const renderFilterList = (index) => {
+    
         let dataBodyCopy = _.cloneDeep(dataBody)
-
-        //we look for the quantity of cells in a row
-        let cellsQuantity = 0
-        console.log('dataHeader: ', typeof dataHeader)
-        dataHeader['rowValues'].forEach(cell => cellsQuantity++)
-
-        let columnsListFormat = {}
-        for(let i = 0; i < cellsQuantity; i++) {
-            columnsListFormat[i] = dataBodyCopy.map(({rowValues, id}) => (
-                {label:rowValues[i], value: rowValues[i], checked: false, id}
-            ))
-        }
-
-        setColumnList(columnsListFormat)
-
-        
-
-    }, [dataBody && dataBody.length])
-
-
-
-  
-    //each time a checbox is checked or unchecked, we set the checked to the corresponding value
-    useEffect(() => {
-        console.log('filterOpenedIndex: ', filterOpenedIndex)
-        if(!dataBody) return
-        if(filterOpenedIndex === null) return
-       
-        let columnListCopy = _.cloneDeep(columnList)
-        
-        
-        columnListCopy[filterOpenedIndex] = columnListCopy[filterOpenedIndex].map(item => {
-            console.log('item.value is included in isChecked: ', isChecked.includes(item.value))
+      
+        return  dataBodyCopy.map(({rowValues, id}) => {
             let checked
-            isChecked.includes(item.value) ? checked = true : checked = false
-
-            return (
-                {...item, checked}
+            isChecked.includes(rowValues[index]) ? checked = true : checked = false
+           return (
+                {label:rowValues[index], value: rowValues[index], checked, id}
             )
         })
+    }
 
-        setColumnList(columnListCopy)
-
-    }, [isChecked.length])
-
+  
     
 
     return (
@@ -113,7 +76,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
                                     />
                                     <Filter 
                                         isVisible={filterOpenedIndex === index}
-                                        list={columnList[index]}
+                                        list={renderFilterList(index)}
                                         onChange={onChangeFilter}
                                     />
                                 </div>

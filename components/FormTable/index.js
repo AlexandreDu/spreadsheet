@@ -9,6 +9,8 @@ import { Body } from './body'
 import { Icon } from '../icon'
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
 import { v4 as uuidv4 } from 'uuid'
+
+
 export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
 
@@ -21,11 +23,17 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
     }
 
     const handleConfirmEdit = (id) => {
+      
         let updatedValues = getValues(`field.${id}`)
-        
+    
         let dataBodyCopy = _.cloneDeep(dataBody)
-        let indexToUpdate = dataBodyCopy.findIndex(row => row.id === id)
+        let indexToUpdate = dataBodyCopy.findIndex(row => {
+            console.log('row.id === id: ', row.id === id)
+            return row.id === id
+        })
+       
         dataBodyCopy[indexToUpdate].rowValues = updatedValues
+       
         setDataBody(dataBodyCopy)
         setIsEdit(null)
     }
@@ -96,27 +104,8 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
     }
 
-    const [listToShow, setListToShow] = useState(dataBody)
-    useEffect(() => {
-        
-        if(!isChecked) return
-       
-        if(isChecked.length > 0) {
-           let filteredList = dataBody.filter(({rowValues}) => {
-                return rowValues.find(rowValue => {
-                   return isChecked.includes(rowValue)
-                })
-            })
-            setListToShow(filteredList)
-           
-            return
-        }
 
-        if(isChecked.length === 0) {
-            setListToShow(dataBody)
-        }
-    }, [isChecked])
-
+    
 
     return (
         <div className='flex flex-col items-center  '>
@@ -140,7 +129,8 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
                         />
                         <Body 
-                            listToShow={listToShow}
+                            dataBody={dataBody}
+                            isChecked={isChecked}
                             handleDelete={handleDelete}
                             handleEdit={handleEdit}
                             handleConfirmEdit={handleConfirmEdit}

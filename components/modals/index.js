@@ -43,7 +43,7 @@ export const FullPageModal = ({isVisible, setIsVisible, onClickMinus, onClickCro
     return (
         <CSSTransition in={isVisible} timeout={450} classNames={'vertical-translate'} unmountOnExit>
             
-            <div className={` w-full h-full bg-slate-50 rounded-lg absolute  p-[1rem] `}>
+            <div className={` w-full h-full bg-slate-50  absolute p-[1rem] border-blue-500 border-t-[0.25rem] `}>
                 <div className='text-right'>
                 <Icon 
                         color='text-blue-500 text-2xl' 
