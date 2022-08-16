@@ -24,17 +24,22 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
         }
 
         setFilterOpenedIndex(index)
-        
-       
     }
 
- 
+   
 
     const renderFilterList = (index) => {
     
         let dataBodyCopy = _.cloneDeep(dataBody)
+        let filteredList = dataBodyCopy.filter(({rowValues}) => {
+            return rowValues.find(rowValue => {
+               return isChecked.includes(rowValue)
+            })
+        })
+        let data = dataBodyCopy
+        if(isChecked.length > 0) data = filteredList
       
-        return  dataBodyCopy.map(({rowValues, id}) => {
+        return data.map(({rowValues, id}) => {
             let checked
             isChecked.includes(rowValues[index]) ? checked = true : checked = false
            return (

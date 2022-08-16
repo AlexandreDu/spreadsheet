@@ -43,19 +43,24 @@ export default function Home() {
         }
       })
 
-      const [header, ...body] = rowsWithoutEmpty
+       let rowsWithCellStrings = rowsWithoutEmpty.map(({rowValues, id}) => {
+       let rowValuesWithStr = rowValues.map(rowValue => rowValue.toString())
+       return {rowValues: rowValuesWithStr, id}
+      })
+
+      const [header, ...body] = rowsWithCellStrings
 
       setDataHeader(header)
       setDataBody(body)
+      setIsModalVisible(true)
       
 
     } catch(err) {
-      console.log(err)
-      setError(err.response.data.error)
+
+      let error  = err?.response?.data?.error || 'error'
+      setError(error)
     }
-    finally {
-      setIsModalVisible(true)
-    }
+   
   }
 
   const [fileName, setFileName] = useState(null)

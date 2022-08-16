@@ -7,7 +7,7 @@ import _ from 'lodash'
 export const Filter = ({isVisible, list, onChange}) => {
 
     
-    
+    console.log('list dedup', getDeduplicated(list, 'label'))
    
     
     return (

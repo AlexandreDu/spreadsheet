@@ -54,10 +54,7 @@ export const FullPageModal = ({isVisible, setIsVisible, onClickMinus, onClickCro
                         icon={faXmark} 
                         onClick={onClickCross}/>
                 </div>
-                {/* title */}
-                <div className="text-center">
-                    Add a line
-                </div>
+               
 
                 {/* content */}
                 <div className='p-[1rem]'>
