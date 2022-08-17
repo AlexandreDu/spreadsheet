@@ -7,7 +7,7 @@ export const InputText = ({register, name, defaultValue, bgColor='', height='', 
         
         <div>
             <input
-                className={`${bgColor} ${height} w-full rounded-[0.25rem] p-[0.25rem] ${align} focus:outline-none focus:ring focus:border-blue-500`}
+                className={`${bgColor} ${height} w-full rounded-[0.25rem] ${align} focus:outline-none focus:ring focus:border-blue-500`}
                 
                 {...register(name)}
                 defaultValue={defaultValue}

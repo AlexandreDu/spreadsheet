@@ -13,10 +13,8 @@ export const Body = ({dataBody, isChecked, handleDelete, handleEdit, handleConfi
         let dataBodyCopy = _.cloneDeep(dataBody)
         
         if(Object.keys(isChecked).length > 0) {
-            console.log('dataBodyCopy', dataBodyCopy)
+         
             return dataBodyCopy.filter(({rowValues}, rowIndex) => {
-               
-                
 
                 let result = rowValues.map((cell, cellIndex) => {
                     if(isChecked[cellIndex]) {
@@ -29,13 +27,8 @@ export const Body = ({dataBody, isChecked, handleDelete, handleEdit, handleConfi
                 const areCellAllTrue = result.every((cellBoolean) => cellBoolean === true)
                
                 return areCellAllTrue
-                // return rowValues.find((cell, cellIndex) => {
-                    
-                //     console.log('cell, cellIndex',  cell, cellIndex)
-                   
-                //    return isChecked[cellIndex] ? isChecked[cellIndex].includes(cell) : false
-                // })
             })
+            
         } else {
             return dataBodyCopy
         }
@@ -47,7 +40,7 @@ export const Body = ({dataBody, isChecked, handleDelete, handleEdit, handleConfi
         dataBody && (
             <tbody>
                 <TransitionGroup component={null}>
-                    {console.log('filteredList(): ', filteredList())}
+                   
                     {filteredList().map(({rowValues, id}, index) => {
                         return (
                             <CSSTransition key={id} timeout={300} classNames={'fade'}>

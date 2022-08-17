@@ -3,15 +3,15 @@ import { Icon } from '../icon'
 import { Button } from '../buttons'
 import { faXmark, faMinus } from "@fortawesome/free-solid-svg-icons"
 
-export const Modal = ({isVisible, setIsVisible, title, content, buttonLabel, onClick, children}) => {
+export const Modal = ({isVisible, setIsVisible, title, buttonLabel, onClick, children}) => {
 
     // modal normal
 
 
     return (
         <CSSTransition in={isVisible} timeout={300} classNames={'fade'} unmountOnExit>
-            <div className=' bg-slate-500/50 fixed top-0 bottom-0 left-0 right-0'>
-                <div className={` w-1/4 bg-slate-50 rounded-lg absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%] p-[1rem] `}>
+            <div className=' bg-slate-500/50 fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center'>
+                <div className={` w-5/6 md:w-1/2 lg:w-1/4 bg-slate-50 rounded-lg p-[1rem]`}>
                     <div className='text-right'>
                         <Icon color='text-blue-500 text-2xl' icon={faXmark} onClick={() => {
                             document.body.style.overflow = 'auto'
@@ -20,16 +20,17 @@ export const Modal = ({isVisible, setIsVisible, title, content, buttonLabel, onC
                     </div>
                     {/* title */}
                     <div className="text-center">
-                        Add a line
+                        {title}
                     </div>
 
                     {/* content */}
-                    <div className='p-[1rem]'>
+                    <div>
                         {children}
+                        <div className='text-right pt-[1rem]'>
+                            <Button onClick={onClick}>{buttonLabel}</Button>
+                        </div>
                     </div>
-                    <div className='text-center'>
-                        <Button onClick={onClick}>{buttonLabel}</Button>
-                    </div>
+                    
                     
                 </div>
             </div>
@@ -38,14 +39,14 @@ export const Modal = ({isVisible, setIsVisible, title, content, buttonLabel, onC
 }
 
 
-export const FullPageModal = ({isVisible, setIsVisible, onClickMinus, onClickCross, children}) => {
+export const FullPageModal = ({isVisible, onClickMinus, onClickCross, children}) => {
 
     return (
         <CSSTransition in={isVisible} timeout={450} classNames={'vertical-translate'} unmountOnExit>
             
-            <div className={` w-full h-full bg-slate-50  absolute p-[1rem] border-blue-500 border-t-[0.25rem] `}>
+            <div className={` w-full md:h-full bg-slate-50 absolute p-[1rem] border-blue-500 border-t-[0.25rem] `}>
                 <div className='text-right'>
-                <Icon 
+                    <Icon 
                         color='text-blue-500 text-2xl' 
                         icon={faMinus} 
                         onClick={onClickMinus}/>

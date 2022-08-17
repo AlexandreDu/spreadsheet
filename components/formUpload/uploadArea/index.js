@@ -8,7 +8,7 @@ export const UploadArea = ({fileName}) => {
     
 
     return (
-            <label htmlFor="input-file" className="block w-[30rem] h-[10rem] bg-slate-200 rounded relative">
+            <label htmlFor="input-file" className="block w-full h-[10rem] bg-slate-200 rounded relative">
                 <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
 
                     <path className='stroke-blue-500' strokeWidth={'0.25rem'} d='M0,0 L5,0' />

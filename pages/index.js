@@ -108,10 +108,8 @@ export default function Home() {
       {error && error}
       <FullPageModal
         isVisible={isModalVisible}
-        setIsVisible={setIsModalVisible}
         onClickMinus={handleClickMinus}
         onClickCross={handleClickCross}
-
       >
         <FormTable 
           dataHeader={dataHeader}

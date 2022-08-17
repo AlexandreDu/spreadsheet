@@ -28,29 +28,25 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
 
    
     const renderFilterList = (index) => {
-        console.log('isChecked', isChecked)
         let dataBodyCopy = _.cloneDeep(dataBody)
-
         let displayedList
 
-    // s'il n'y a qu'un index dans isChecked, il faut que le filtre correspondant à cet index retourne toute la liste et pas le displayed
     // if there is only one property in the isChecked object, it means we are using only one column filter -> the corresponding filter must list all the items of the columns (and not only the displayed ones)
+
+    let checkedIndex = parseInt(Object.keys(isChecked), 10)
     
-    if(Object.keys(isChecked).length === 1) {
+    if(Object.keys(isChecked).length === 1 && checkedIndex === index) {
 
-        let checkedIndex = parseInt(Object.keys(isChecked), 10)
+        listColumn = dataBodyCopy.map(({rowValues, id}) => {
+            let checked
 
-        if(checkedIndex === index ) {
-            listColumn = dataBodyCopy.map(({rowValues, id}) => {
-                let checked
-
-                isChecked[checkedIndex].includes(rowValues[index]) ? checked = true : checked = false
-                return {value: rowValues[index], checked, label: rowValues[index], id}
-            })
-            
-            // we return listColumn and exit the function
-            return listColumn
-        }
+            isChecked[checkedIndex].includes(rowValues[index]) ? checked = true : checked = false
+            return {value: rowValues[index], checked, label: rowValues[index], id}
+        })
+        
+        // we return listColumn and exit the function
+        return listColumn
+        
         
     }
     
@@ -71,14 +67,11 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
         })
     } 
       
+
     if(Object.keys(isChecked).length === 0) {
         displayedList = dataBodyCopy
     }
 
-    
-
-    console.log('displayedList: ', displayedList)
-    
 
     let listColumn = displayedList.map(({rowValues, id}) => {
         return {value: rowValues[index], checked: false, label: rowValues[index], id}
@@ -101,19 +94,19 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
         })
     }
 
-    console.log('displayedListColumn: ', displayedListColumn)
+   
     return displayedListColumn
    
     }
 
-  
-    
+
 
     return (
         dataHeader && (
             <thead>
                 <tr className='bg-slate-100 '>
                 {dataHeader.rowValues.map((cellValue, index) => {
+                    let isSomeChecked = renderFilterList(index).some(item => item.checked)
                     return (
                         <Cell as='th' key={index}>
                             <div className='w-full h-full flex items-center justify-center relative' >
@@ -132,7 +125,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
                                         onClick={() => handleSort(index, 'descending')}
                                     />
                                     <Icon 
-                                        color='text-blue-500' 
+                                        color={`${isSomeChecked ? 'text-blue-500' : 'text-slate-500' }`} 
                                         size='fa-xs' 
                                         icon={faFilter} 
                                         onClick={() => toggleFilter(index)}

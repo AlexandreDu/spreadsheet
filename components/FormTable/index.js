@@ -57,9 +57,39 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
     const handleDelete = (id) => {
         try {
             let dataBodyCopy = _.cloneDeep(dataBody)
+            let isCheckedCopy = _.cloneDeep(isChecked)
+            
+           
+            let rowValuesToBeDeleted = dataBodyCopy.filter(({rowValues, id:rowId}) => {
+                return id === rowId
+            })[0]['rowValues']
+
+            console.log('values', rowValuesToBeDeleted)
+            // for each column, if one cellValue is used in the corresponding filter and if there is only 1 of this cellValues in the dataBody column, so we delete the value from isChecked
+            rowValuesToBeDeleted.forEach((cellValue, cellIndex) => {
+                if(isCheckedCopy[cellIndex]) {
+                    let indexToRemove = isCheckedCopy[cellIndex].findIndex(elem => elem === cellValue)
+                    let valueFound = 0
+                    dataBodyCopy.forEach(({rowValues}) => {
+                        if(rowValues[cellIndex] === cellValue) valueFound++
+                    })
+                    console.log('valueFound', valueFound)
+                    if(indexToRemove !== -1 && valueFound <= 1) {
+                        isCheckedCopy[cellIndex].splice(indexToRemove, 1)
+                    }
+                }
+            })
+            console.log('isCheckedCopy', isCheckedCopy)
+            setIsChecked(isCheckedCopy)
+
+            
             let indexToDelete = dataBodyCopy.findIndex(row => row.id === id)
             dataBodyCopy.splice(indexToDelete, 1)
             setDataBody(dataBodyCopy)
+
+            
+
+
 
         } catch(err) {
             console.log(err)
@@ -79,8 +109,6 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
         setDataBody(dataBodyCopy)
     }
 
-    
-   
 
     const handleAdd = () => {
         
@@ -106,7 +134,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
        
         
         let isCheckedCopy = _.cloneDeep(isChecked)
-        console.log('onChangeFilter, isCheckedCopy: ', isCheckedCopy)
+        console.log('isCheckedCopy: ', isCheckedCopy)
 
         // if there is no items yet in this checked index, we add the item and return
         if(!isCheckedCopy[index]) {
@@ -117,7 +145,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
         //if there is at least one item in this index
         let indexToRemove = isCheckedCopy[index].indexOf(e.target.value)
-        console.log('indexToRemove', indexToRemove)
+      
         if(indexToRemove !== -1) {
             isCheckedCopy[index].splice(indexToRemove, 1)
 
@@ -126,10 +154,12 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
             setIsChecked(isCheckedCopy)
             return
         } 
+
         // if the item that we will add does not exist yet in this index 
         if(indexToRemove === -1) {
             isCheckedCopy[index].push(e.target.value)
             setIsChecked(isCheckedCopy)
+            return
         }
 
     }
@@ -138,8 +168,8 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
     
 
     return (
-        <div className='flex flex-col items-center  '>
-            <div className='w-3/4 flex flex-col items-end'>
+        <div className='flex flex-col items-center w-full'>
+            <div className='sm:w-full md:w-3/4 flex flex-col items-end'>
                 {/* add button */}
                 {dataHeader && (
                     <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => {
@@ -148,26 +178,31 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                     }}/>
                 )}
                 
-                <form>
-                    <table className='w-full table-fixed border-separate   text-center rounded-[0.25rem] '>
-                        <Header 
-                            dataHeader={dataHeader}
-                            handleSort={handleSort}
-                            dataBody={dataBody}
-                            onChangeFilter={onChangeFilter}
-                            isChecked={isChecked}
+                <form className='w-full'>
+                    <div className=' w-full'>
+                        <table className='w-full sm:table-auto md:table-fixed border-separate text-center rounded-[0.25rem] '>
+                            <Header 
+                                dataHeader={dataHeader}
+                                handleSort={handleSort}
+                                dataBody={dataBody}
+                                onChangeFilter={onChangeFilter}
+                                isChecked={isChecked}
 
-                        />
-                        <Body 
-                            dataBody={dataBody}
-                            isChecked={isChecked}
-                            handleDelete={handleDelete}
-                            handleEdit={handleEdit}
-                            handleConfirmEdit={handleConfirmEdit}
-                            isEdit={isEdit}
-                            register={register}
-                        />
-                    </table>
+                            />
+                            <Body 
+                                dataBody={dataBody}
+                                isChecked={isChecked}
+                                handleDelete={handleDelete}
+                                handleEdit={handleEdit}
+                                handleConfirmEdit={handleConfirmEdit}
+                                isEdit={isEdit}
+                                register={register}
+                            />
+                        </table>
+                   </div>
+                        
+              
+                    
                 </form>
             </div>
             <Modal 
@@ -175,6 +210,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                 setIsVisible={setIsVisible}
                 buttonLabel='save'
                 onClick={handleAdd}
+                title='add a line'
             >
                 <form className='text-left'>
                     {dataHeader && dataHeader.rowValues.map((value, index) => {
