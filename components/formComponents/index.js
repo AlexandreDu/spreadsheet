@@ -34,6 +34,7 @@ export const Checkbox = ({register, name, label, onChange, checked}) => {
                 onChange={(e) => onChange(e, label)}
                 checked={checked}
                 title={label}
+                value={label}
             />
             <label title={label} className="font-normal">{EllipsedLabel}</label>
         </div>

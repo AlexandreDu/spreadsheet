@@ -4,20 +4,40 @@ import { Icon } from '../../icon'
 import { faPen, faTrashCan, faCheck } from "@fortawesome/free-solid-svg-icons"
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { InputText } from '../../formComponents'
-
+import _ from 'lodash'
 export const Body = ({dataBody, isChecked, handleDelete, handleEdit, handleConfirmEdit, isEdit, register}) => {
 
   
 
     const filteredList = () => {
-        if(isChecked.length > 0) {
-            return dataBody.filter(({rowValues}) => {
-                return rowValues.find(rowValue => {
-                   return isChecked.includes(rowValue)
-                })
+        let dataBodyCopy = _.cloneDeep(dataBody)
+        
+        if(Object.keys(isChecked).length > 0) {
+            console.log('dataBodyCopy', dataBodyCopy)
+            return dataBodyCopy.filter(({rowValues}, rowIndex) => {
+               
+                
+
+                let result = rowValues.map((cell, cellIndex) => {
+                    if(isChecked[cellIndex]) {
+                       return isChecked[cellIndex].includes(cell)
+                    }
+                    return true
+                }) 
+               
+               
+                const areCellAllTrue = result.every((cellBoolean) => cellBoolean === true)
+               
+                return areCellAllTrue
+                // return rowValues.find((cell, cellIndex) => {
+                    
+                //     console.log('cell, cellIndex',  cell, cellIndex)
+                   
+                //    return isChecked[cellIndex] ? isChecked[cellIndex].includes(cell) : false
+                // })
             })
         } else {
-            return dataBody
+            return dataBodyCopy
         }
         
     }
@@ -27,6 +47,7 @@ export const Body = ({dataBody, isChecked, handleDelete, handleEdit, handleConfi
         dataBody && (
             <tbody>
                 <TransitionGroup component={null}>
+                    {console.log('filteredList(): ', filteredList())}
                     {filteredList().map(({rowValues, id}, index) => {
                         return (
                             <CSSTransition key={id} timeout={300} classNames={'fade'}>

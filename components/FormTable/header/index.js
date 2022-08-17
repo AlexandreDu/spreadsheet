@@ -5,7 +5,7 @@ import { faCaretDown, faCaretUp, faFilter } from "@fortawesome/free-solid-svg-ic
 import { useModal } from '../../../hooks/useModal'
 import { useForm } from 'react-hook-form'
 import { Filter } from '../../filter'
-
+import _ from 'lodash'
 
 export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChecked}) => {
 
@@ -27,25 +27,84 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
     }
 
    
-
     const renderFilterList = (index) => {
-    
+        console.log('isChecked', isChecked)
         let dataBodyCopy = _.cloneDeep(dataBody)
-        let filteredList = dataBodyCopy.filter(({rowValues}) => {
-            return rowValues.find(rowValue => {
-               return isChecked.includes(rowValue)
+
+        let displayedList
+
+        
+
+        
+    // s'il n'y a qu'un index dans isChecked, il faut que le filtre correspondant à cet index retourne toute la liste et pas le displayed
+    
+    if(Object.keys(isChecked).length === 1) {
+
+        let checkedIndex = parseInt(Object.keys(isChecked), 10)
+
+        if(checkedIndex === index ) {
+            listColumn = dataBodyCopy.map(({rowValues, id}) => {
+                let checked
+
+                isChecked[checkedIndex].includes(rowValues[index]) ? checked = true : checked = false
+                return {value: rowValues[index], checked, label: rowValues[index], id}
             })
+            
+            return listColumn
+        }
+        
+    }
+    
+    if(Object.keys(isChecked).length >= 1) {
+        displayedList = dataBodyCopy.filter(({rowValues}, rowIndex) => {
+
+            let result = rowValues.map((cell, cellIndex) => {
+                if(isChecked[cellIndex]) {
+                    return isChecked[cellIndex].includes(cell)
+                }
+                return true
+            }) 
+            
+            
+            const areCellAllTrue = result.every((cellBoolean) => cellBoolean === true)
+            
+            return areCellAllTrue
         })
-        let data = dataBodyCopy
-        if(isChecked.length > 0) data = filteredList
+    } 
       
-        return data.map(({rowValues, id}) => {
-            let checked
-            isChecked.includes(rowValues[index]) ? checked = true : checked = false
-           return (
-                {label:rowValues[index], value: rowValues[index], checked, id}
-            )
+    if(Object.keys(isChecked).length === 0) {
+        displayedList = dataBodyCopy
+    }
+
+    
+
+    console.log('displayedList: ', displayedList)
+    
+
+    let listColumn = displayedList.map(({rowValues, id}) => {
+        return {value: rowValues[index], checked: false, label: rowValues[index], id}
+    })
+    
+
+    let displayedListColumn
+
+    if(!isChecked[index]) {
+        displayedListColumn = _.cloneDeep(listColumn)
+    }
+    
+    if(isChecked[index]) {
+        displayedListColumn = listColumn.map(item => {
+            item.checked = isChecked[index].includes(item.value) ? true : false
+            return item
         })
+        displayedListColumn = displayedListColumn.filter(({value, id}) => {
+            return isChecked[index].includes(value)
+        })
+    }
+
+    console.log('displayedListColumn: ', displayedListColumn)
+    return displayedListColumn
+   
     }
 
   
@@ -80,6 +139,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
                                         onClick={() => toggleFilter(index)}
                                     />
                                     <Filter 
+                                        index={index}
                                         isVisible={filterOpenedIndex === index}
                                         list={renderFilterList(index)}
                                         onChange={onChangeFilter}

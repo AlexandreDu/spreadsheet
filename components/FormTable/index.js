@@ -85,22 +85,36 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
    
     // filter
-    const [isChecked, setIsChecked] = useState([])
+    const [isChecked, setIsChecked] = useState({})
     
-    const onChangeFilter = (e, label) => {
-        console.log(label)
+    const onChangeFilter = (e, index) => {
+       
+        
+        let isCheckedCopy = _.cloneDeep(isChecked)
+        console.log('onChangeFilter, isCheckedCopy: ', isCheckedCopy)
 
-        let filterListCopy = [...isChecked]
-        let indexToRemove = filterListCopy.indexOf(label)
+        // if there is no items yet in this checked index, we add the item and return
+        if(!isCheckedCopy[index]) {
+            isCheckedCopy[index] = [e.target.value]
+             setIsChecked(isCheckedCopy)
+             return
+        } 
+
+        //if there is at least one item in this index
+        let indexToRemove = isCheckedCopy[index].indexOf(e.target.value)
+        console.log('indexToRemove', indexToRemove)
         if(indexToRemove !== -1) {
-            filterListCopy.splice(indexToRemove, 1)
-        } else {
-            filterListCopy.push(label)
-            
-            
-        }
+            isCheckedCopy[index].splice(indexToRemove, 1)
 
-        setIsChecked(filterListCopy)
+            if(isCheckedCopy[index].length == 0) delete isCheckedCopy[index]
+            setIsChecked(isCheckedCopy)
+            return
+        } 
+        // if the item that we will add does not exist yet in this index 
+        if(indexToRemove === -1) {
+            isCheckedCopy[index].push(e.target.value)
+            setIsChecked(isCheckedCopy)
+        }
 
     }
 

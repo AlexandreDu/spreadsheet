@@ -4,10 +4,10 @@ import { Checkbox } from '../formComponents'
 import { getDeduplicated } from '../../utility/getDeduplicated'
 import _ from 'lodash'
 
-export const Filter = ({isVisible, list, onChange}) => {
+export const Filter = ({isVisible, list, onChange, index}) => {
 
     
-    console.log('list dedup', getDeduplicated(list, 'label'))
+    
    
     
     return (
@@ -21,7 +21,7 @@ export const Filter = ({isVisible, list, onChange}) => {
                             key={id}
                             name={id}
                             label={label}
-                            onChange={onChange}
+                            onChange={(e) => onChange(e, index)}
                             value={value}
                             checked={checked}
                         />
