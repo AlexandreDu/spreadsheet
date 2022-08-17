@@ -33,10 +33,8 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
 
         let displayedList
 
-        
-
-        
     // s'il n'y a qu'un index dans isChecked, il faut que le filtre correspondant à cet index retourne toute la liste et pas le displayed
+    // if there is only one property in the isChecked object, it means we are using only one column filter -> the corresponding filter must list all the items of the columns (and not only the displayed ones)
     
     if(Object.keys(isChecked).length === 1) {
 
@@ -50,6 +48,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
                 return {value: rowValues[index], checked, label: rowValues[index], id}
             })
             
+            // we return listColumn and exit the function
             return listColumn
         }
         

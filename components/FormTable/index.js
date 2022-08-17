@@ -24,16 +24,31 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
     const handleConfirmEdit = (id) => {
       
-        let updatedValues = getValues(`field.${id}`)
+        
     
         let dataBodyCopy = _.cloneDeep(dataBody)
+        let isCheckedCopy = _.cloneDeep(isChecked)
+
         let indexToUpdate = dataBodyCopy.findIndex(row => {
             console.log('row.id === id: ', row.id === id)
             return row.id === id
         })
+        
+        let updatedValues = getValues(`field.${id}`)
+
+        //before updating the row, we checked if the cells were used in the corresponding filter. If yes, we update the filter with the new value
+        dataBodyCopy[indexToUpdate].rowValues.forEach((cell, cellIndex) => {
+            
+            if(isCheckedCopy[cellIndex] && isCheckedCopy[cellIndex].includes(cell)) {
+                let index = isCheckedCopy[cellIndex].findIndex(cell => cell === updatedValues[cellIndex] )
+                isCheckedCopy[cellIndex].splice(index, 1, updatedValues[cellIndex]) 
+                setIsChecked(isCheckedCopy)
+            }
+        })
        
+
         dataBodyCopy[indexToUpdate].rowValues = updatedValues
-       
+        
         setDataBody(dataBodyCopy)
         setIsEdit(null)
     }
@@ -106,6 +121,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
         if(indexToRemove !== -1) {
             isCheckedCopy[index].splice(indexToRemove, 1)
 
+            // if the property is empty, we delete this property
             if(isCheckedCopy[index].length == 0) delete isCheckedCopy[index]
             setIsChecked(isCheckedCopy)
             return
