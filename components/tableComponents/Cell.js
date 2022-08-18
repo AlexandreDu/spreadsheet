@@ -27,8 +27,6 @@ export const Cell = ({as = 'td', color, onClick, children}) => {
     }
 
 
-
-
     return (
         
             componentToRender      

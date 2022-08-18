@@ -10,8 +10,9 @@ export const Modal = ({isVisible, setIsVisible, title, buttonLabel, onClick, chi
 
     return (
         <CSSTransition in={isVisible} timeout={300} classNames={'fade'} unmountOnExit>
+         
             <div className=' bg-slate-500/50 fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center'>
-                <div className={` w-5/6 md:w-1/2 lg:w-1/4 bg-slate-50 rounded-lg p-[1rem]`}>
+                <div className={` w-5/6 max-h-[90%] md:w-1/2 lg:w-1/4 bg-slate-50 rounded-lg p-[1rem] overflow-auto`}>
                     <div className='text-right'>
                         <Icon color='text-blue-500 text-2xl' icon={faXmark} onClick={() => {
                             document.body.style.overflow = 'auto'
@@ -30,10 +31,9 @@ export const Modal = ({isVisible, setIsVisible, title, buttonLabel, onClick, chi
                             <Button onClick={onClick}>{buttonLabel}</Button>
                         </div>
                     </div>
-                    
-                    
                 </div>
             </div>
+      
         </CSSTransition>
     )
 }

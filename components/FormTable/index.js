@@ -165,44 +165,39 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
     }
 
 
-    
 
     return (
    
         <div className='flex flex-col items-center w-full'>
-                <form className='w-full'>
-                    {dataHeader && (
-                    <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => {
-                        document.body.style.overflow = 'hidden'
-                        setIsVisible(true)
-                    }}/>
-                )}
-                    <div className='overflow-x-auto'>
-                        <table className='w-full h-full sm:table-auto md:table-auto border-separate text-center '>
-                            <Header 
-                                dataHeader={dataHeader}
-                                handleSort={handleSort}
-                                dataBody={dataBody}
-                                onChangeFilter={onChangeFilter}
-                                isChecked={isChecked}
+            <form className='w-full'>
+                {dataHeader && (
+                <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => {
+                    document.body.style.overflow = 'hidden'
+                    setIsVisible(true)
+                }}/>
+            )}
+                <div className='overflow-x-auto'>
+                    <table className='w-full h-full sm:table-auto md:table-auto border-separate text-center '>
+                        <Header 
+                            dataHeader={dataHeader}
+                            handleSort={handleSort}
+                            dataBody={dataBody}
+                            onChangeFilter={onChangeFilter}
+                            isChecked={isChecked}
 
-                            />
-                            <Body 
-                                dataBody={dataBody}
-                                isChecked={isChecked}
-                                handleDelete={handleDelete}
-                                handleEdit={handleEdit}
-                                handleConfirmEdit={handleConfirmEdit}
-                                isEdit={isEdit}
-                                register={register}
-                            />
-                        </table>
-                   </div>
-                        
-              
-                    
-                </form>
-        
+                        />
+                        <Body 
+                            dataBody={dataBody}
+                            isChecked={isChecked}
+                            handleDelete={handleDelete}
+                            handleEdit={handleEdit}
+                            handleConfirmEdit={handleConfirmEdit}
+                            isEdit={isEdit}
+                            register={register}
+                        />
+                    </table>
+                </div>
+            </form>
             <Modal 
                 isVisible={isVisible}
                 setIsVisible={setIsVisible}
@@ -216,7 +211,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                             <>
                                 <label 
                                     key={index}
-                                    className='block p-[1rem]'
+                                    className='block pt-[1rem] pr-[1rem] pb-[1rem] pl-[0.5rem] break-words'
                                 >
                                     {value}
                                 </label>
