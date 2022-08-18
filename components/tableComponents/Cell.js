@@ -11,7 +11,7 @@ export const Cell = ({as = 'td', color, onClick, children}) => {
 
     if(as === 'th') {
         componentToRender = (
-            <th className='rounded-[0.25rem] h-[5rem] break-words font-semibold' onClick={onClick}>
+            <th className=' h-[5rem] break-words font-semibold rounded-[0.25rem] p-[1rem]' onClick={onClick}>
                 {children}
             </th>
         )
@@ -19,7 +19,7 @@ export const Cell = ({as = 'td', color, onClick, children}) => {
     }
     if(as ==='td') {
         componentToRender = (
-            <td className='break-words h-[48px]' onClick={onClick}>
+            <td className='break-words h-[48px] rounded-[0.25rem] p-[1rem]' onClick={onClick}>
                 {children}
             </td>
         )

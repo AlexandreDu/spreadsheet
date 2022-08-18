@@ -27,7 +27,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
     }
 
    
-    const renderFilterList = (index) => {
+    const getFilterList = (index) => {
         let dataBodyCopy = _.cloneDeep(dataBody)
         let displayedList
 
@@ -67,7 +67,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
         })
     } 
       
-
+    //if no value is selected in every filter, the displayed list in the table is the data we fetched initially
     if(Object.keys(isChecked).length === 0) {
         displayedList = dataBodyCopy
     }
@@ -104,14 +104,14 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
     return (
         dataHeader && (
             <thead>
-                <tr className='bg-slate-100 '>
+                <tr className='bg-slate-200'>
                 {dataHeader.rowValues.map((cellValue, index) => {
-                    let isSomeChecked = renderFilterList(index).some(item => item.checked)
+                    let isSomeChecked = getFilterList(index).some(item => item.checked)
                     return (
                         <Cell as='th' key={index}>
-                            <div className='w-full h-full flex items-center justify-center relative' >
+                            <div className='w-full h-full flex flex-col items-center justify-center relative' >
                                 <span>{cellValue}</span>
-                                <div className='flex justify-end absolute bottom-0 right-0'>                  
+                                <div className='flex justify-end '>                  
                                     <Icon 
                                         color='text-slate-500' 
                                         size='fa-2xs' 
@@ -133,7 +133,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
                                     <Filter 
                                         index={index}
                                         isVisible={filterOpenedIndex === index}
-                                        list={renderFilterList(index)}
+                                        list={getFilterList(index)}
                                         onChange={onChangeFilter}
                                     />
                                 </div>

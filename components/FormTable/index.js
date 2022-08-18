@@ -64,7 +64,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                 return id === rowId
             })[0]['rowValues']
 
-            console.log('values', rowValuesToBeDeleted)
+           
             // for each column, if one cellValue is used in the corresponding filter and if there is only 1 of this cellValues in the dataBody column, so we delete the value from isChecked
             rowValuesToBeDeleted.forEach((cellValue, cellIndex) => {
                 if(isCheckedCopy[cellIndex]) {
@@ -134,7 +134,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
        
         
         let isCheckedCopy = _.cloneDeep(isChecked)
-        console.log('isCheckedCopy: ', isCheckedCopy)
+        
 
         // if there is no items yet in this checked index, we add the item and return
         if(!isCheckedCopy[index]) {
@@ -168,19 +168,17 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
     
 
     return (
+   
         <div className='flex flex-col items-center w-full'>
-            <div className='sm:w-full md:w-3/4 flex flex-col items-end'>
-                {/* add button */}
-                {dataHeader && (
+                <form className='w-full'>
+                    {dataHeader && (
                     <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => {
                         document.body.style.overflow = 'hidden'
                         setIsVisible(true)
                     }}/>
                 )}
-                
-                <form className='w-full'>
-                    <div className=' w-full'>
-                        <table className='w-full sm:table-auto md:table-fixed border-separate text-center rounded-[0.25rem] '>
+                    <div className='overflow-x-auto'>
+                        <table className='w-full h-full sm:table-auto md:table-auto border-separate text-center '>
                             <Header 
                                 dataHeader={dataHeader}
                                 handleSort={handleSort}
@@ -204,7 +202,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
               
                     
                 </form>
-            </div>
+        
             <Modal 
                 isVisible={isVisible}
                 setIsVisible={setIsVisible}
