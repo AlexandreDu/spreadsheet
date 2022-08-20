@@ -5,54 +5,27 @@ import { faPen, faTrashCan, faCheck } from "@fortawesome/free-solid-svg-icons"
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { InputText } from '../../formComponents'
 import _ from 'lodash'
-export const Body = ({dataBody, isChecked, handleDelete, handleEdit, handleConfirmEdit, isEdit, register}) => {
+
+export const Body = ({ filteredList, handleDelete, handleEdit, handleConfirmEdit, isEdit, register}) => {
 
   
 
-    const filteredList = () => {
-        let dataBodyCopy = _.cloneDeep(dataBody)
-        
-        if(Object.keys(isChecked).length > 0) {
-         
-            return dataBodyCopy.filter(({rowValues}, rowIndex) => {
-
-                let result = rowValues.map((cell, cellIndex) => {
-                    if(isChecked[cellIndex]) {
-                       return isChecked[cellIndex].includes(cell)
-                    }
-                    return true
-                }) 
-               
-               
-                const areCellAllTrue = result.every((cellBoolean) => cellBoolean === true)
-               
-                return areCellAllTrue
-            })
-            
-        } else {
-            return dataBodyCopy
-        }
-        
-    }
-
 
     return (
-        dataBody && (
+        filteredList && (
             <tbody>
-                <TransitionGroup component={null}>
+                {/* <TransitionGroup component={null}> */}
                    
-                    {filteredList().map(({rowValues, id}, index) => {
+                    {filteredList.map(({rowValues, id}, index) => {
                         return (
-                            <CSSTransition key={id} timeout={300} classNames={'fade'}>
+                            // <CSSTransition key={id} timeout={300} classNames={'fade'}>
                                 <tr key={id} className={`${index % 2 === 0 && 'bg-slate-100'}`}>
                                     {rowValues.map((rowValue, subIndex) => {
                                     return (
                                         <Cell key={subIndex}>
-                                            <TransitionGroup component={null}>
+                                           
                                             {isEdit === id ? (
-                                                // issue, transition does not work
-                                                <CSSTransition timeout={300} classNames={'fade'}>
-                                                  
+                   
                                                     <InputText  
                                                         register={register}
                                                         defaultValue={rowValue}
@@ -60,16 +33,11 @@ export const Body = ({dataBody, isChecked, handleDelete, handleEdit, handleConfi
                                                         bgColor={index % 2 === 0 ? 'bg-white' : 'bg-slate-100'}
                                                     />
                                                   
-                                                </CSSTransition>
+                                             
                                             ) : (
-                                                // issue
-                                                <CSSTransition  timeout={300} classNames={'fade'}>
-                                                    <>
-                                                        {rowValue}
-                                                    </>
-                                                </CSSTransition>
+                                                        rowValue
                                             )}
-                                            </TransitionGroup>
+                                         
                                         </Cell>
                                     )
                                     })}
@@ -89,10 +57,10 @@ export const Body = ({dataBody, isChecked, handleDelete, handleEdit, handleConfi
                                             <Icon color='text-red-500' icon={faTrashCan}/>
                                     </Cell>
                                 </tr>
-                            </CSSTransition>
+                            // </CSSTransition>
                         )
                     })}
-                </TransitionGroup>
+                {/* </TransitionGroup> */}
             </tbody>
         )
     )

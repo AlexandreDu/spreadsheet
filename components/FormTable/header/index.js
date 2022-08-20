@@ -6,6 +6,7 @@ import { useModal } from '../../../hooks/useModal'
 import { useForm } from 'react-hook-form'
 import { Filter } from '../../filter'
 import _ from 'lodash'
+import { ellipsis } from '../../../utility/ellipsis'
 
 export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChecked}) => {
 
@@ -17,6 +18,7 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
     const { handleSubmit, reset, control, formState: { errors }, register, getValues, watch } = useForm()
 
     const toggleFilter = (index) => {
+      
        //if the filter is already open and we click on it again, we close it
         if(index === filterOpenedIndex) {
             setFilterOpenedIndex(null)
@@ -109,8 +111,8 @@ export const Header = ({dataHeader, handleSort, dataBody, onChangeFilter, isChec
                     let isSomeChecked = getFilterList(index).some(item => item.checked)
                     return (
                         <Cell as='th' key={index}>
-                            <div className='w-full h-full flex flex-col items-center justify-center relative' >
-                                <span>{cellValue}</span>
+                            <div className='w-full h-full flex flex-col justify-center  relative' >
+                                <span>{ellipsis(cellValue, 10)}</span>
                                 <div className='flex justify-end '>                  
                                     <Icon 
                                         color='text-slate-500' 

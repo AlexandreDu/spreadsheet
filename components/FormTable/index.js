@@ -9,7 +9,9 @@ import { Body } from './body'
 import { Icon } from '../icon'
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
 import { v4 as uuidv4 } from 'uuid'
-
+import { Pagination } from '../pagination'
+import { usePagination } from '../../hooks/usePagination'
+import { useFilter } from '../../hooks/useFilter'
 
 export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
@@ -23,9 +25,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
     }
 
     const handleConfirmEdit = (id) => {
-      
-        
-    
+
         let dataBodyCopy = _.cloneDeep(dataBody)
         let isCheckedCopy = _.cloneDeep(isChecked)
 
@@ -79,17 +79,13 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                     }
                 }
             })
-            console.log('isCheckedCopy', isCheckedCopy)
+            
             setIsChecked(isCheckedCopy)
 
             
             let indexToDelete = dataBodyCopy.findIndex(row => row.id === id)
             dataBodyCopy.splice(indexToDelete, 1)
             setDataBody(dataBodyCopy)
-
-            
-
-
 
         } catch(err) {
             console.log(err)
@@ -128,75 +124,55 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
    
     // filter
-    const [isChecked, setIsChecked] = useState({})
+    const {isChecked, setIsChecked, onChangeFilter, filteredList} = useFilter(dataBody)
     
-    const onChangeFilter = (e, index) => {
-       
-        
-        let isCheckedCopy = _.cloneDeep(isChecked)
-        
 
-        // if there is no items yet in this checked index, we add the item and return
-        if(!isCheckedCopy[index]) {
-            isCheckedCopy[index] = [e.target.value]
-             setIsChecked(isCheckedCopy)
-             return
-        } 
-
-        //if there is at least one item in this index
-        let indexToRemove = isCheckedCopy[index].indexOf(e.target.value)
-      
-        if(indexToRemove !== -1) {
-            isCheckedCopy[index].splice(indexToRemove, 1)
-
-            // if the property is empty, we delete this property
-            if(isCheckedCopy[index].length == 0) delete isCheckedCopy[index]
-            setIsChecked(isCheckedCopy)
-            return
-        } 
-
-        // if the item that we will add does not exist yet in this index 
-        if(indexToRemove === -1) {
-            isCheckedCopy[index].push(e.target.value)
-            setIsChecked(isCheckedCopy)
-            return
-        }
-
-    }
-
+    // pagination
+    const {currentPage, setCurrentPage, handleChangePage, pageSize, handleChangePageSize, rangeList} = usePagination(filteredList && filteredList())
+    
 
 
     return (
    
-        <div className='flex flex-col items-center w-full'>
-            <form className='w-full'>
+        <div className='flex flex-col items-center w-full h-full'>
+            <form className='w-full h-full'>
                 {dataHeader && (
-                <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => {
-                    document.body.style.overflow = 'hidden'
-                    setIsVisible(true)
-                }}/>
-            )}
-                <div className='overflow-x-auto'>
-                    <table className='w-full h-full sm:table-auto md:table-auto border-separate text-center '>
+                    <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => {
+                        document.body.style.overflow = 'hidden'
+                        setIsVisible(true)
+                    }}/>
+                )}
+            
+                <div className='overflow-x-auto h-full'>
+                    <table className='w-full  table-auto  border-separate text-center '>
                         <Header 
                             dataHeader={dataHeader}
                             handleSort={handleSort}
-                            dataBody={dataBody}
+                            dataBody={rangeList}
                             onChangeFilter={onChangeFilter}
                             isChecked={isChecked}
 
                         />
                         <Body 
-                            dataBody={dataBody}
-                            isChecked={isChecked}
+                            filteredList={rangeList}
                             handleDelete={handleDelete}
                             handleEdit={handleEdit}
                             handleConfirmEdit={handleConfirmEdit}
                             isEdit={isEdit}
                             register={register}
+                            
                         />
                     </table>
+                    <Pagination 
+                        totalCount={filteredList() && filteredList().length} 
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        handleChangePage={handleChangePage}
+                        handleChangePageSize={handleChangePageSize}
+                    />
                 </div>
+                
             </form>
             <Modal 
                 isVisible={isVisible}

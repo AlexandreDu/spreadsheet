@@ -1,4 +1,4 @@
-export function ellipsis(text) {
+export function ellipsis(text, max = 5) {
     
     if(typeof text !== 'string') {
         try {
@@ -8,8 +8,8 @@ export function ellipsis(text) {
             return
         }
     } 
-    let slicedText = text.slice('0', '5')
-    if(text.length > 6) slicedText += '...'
+    let slicedText = text.slice(0, max)
+    if(text.length > max + 1) slicedText += '...'
 
     return slicedText
 }

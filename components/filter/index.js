@@ -15,8 +15,8 @@ export const Filter = ({isVisible, list, onChange, index}) => {
     
     return (
         <CSSTransition in={isVisible} timeout={300} classNames='fade' unmountOnExit>
-            <div className={`absolute top-[4rem] ${isFirst ? 'left-[2rem]' : ''} md:left-auto bg-white shadow-lg shadow-slate-500/50 rounded-sm w-[9rem] max-h-[20rem] overflow-auto`}>
-                <div className='w-4/5 p-[0.5rem] flex flex-col items-start'>
+            <div className={`absolute top-[5rem] ${isFirst ? 'left-[2rem]' : ''} md:left-auto bg-white shadow-lg shadow-slate-500/50 rounded-sm w-[9rem] min-h-[5rem] max-h-[20rem] overflow-auto p-[0.5rem] `}>
+                <div className='w-4/5 flex flex-col items-start '>
                     {deduplicatedList.map(({label, id, value, checked}) => (
                         <Checkbox 
                             key={id}
