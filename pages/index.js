@@ -87,7 +87,7 @@ export default function Home() {
   }
 
   return (
-    <div className='flex flex-col justify-center items-center h-screen '>
+    <div className='flex flex-col justify-center items-center h-screen bg-slate-200'>
       {dataHeader ? (
         <div>
           <Icon color='text-blue-500 text-2xl' icon={faFile} onClick={() => setIsModalVisible(true)}/>
@@ -99,9 +99,10 @@ export default function Home() {
           onChange={onChange}
           register={register}
           fileName={fileName}
+          error={error}
         />
       )}
-      {error && error}
+      
       <FullPageModal
         isVisible={isModalVisible}
         onClickMinus={handleClickMinus}

@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid'
 export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
 
-    const { handleSubmit, reset, control, formState: { errors }, register, getValues } = useForm()
+    const { register, getValues } = useForm()
 
     const[isEdit, setIsEdit] = useState(null)
 
