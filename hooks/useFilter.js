@@ -45,7 +45,7 @@ export const useFilter = (list) => {
     const filteredList = () => {
         let listCopy = _.cloneDeep(list)
         
-        if(Object.keys(isChecked).length > 0) {
+        if(Object.keys(isChecked).length > 0 && listCopy) {
          
             return listCopy.filter(({rowValues}, rowIndex) => {
 

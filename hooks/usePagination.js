@@ -20,8 +20,6 @@ export const usePagination = (list) => {
 
     let startIndex = currentPage * pageSize - pageSize
     const endIndex = startIndex + pageSize
-    console.log('startIndex', startIndex)
-    console.log('endIndex', endIndex)
     if(list && startIndex > list.length) {
         startIndex = 0
         

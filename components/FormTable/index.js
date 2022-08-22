@@ -2,16 +2,16 @@ import {useState, useCallback, useEffect} from 'react'
 import { Header } from './header'
 import { Modal } from '../modals'
 import { InputText } from '../formComponents'
-import { useForm } from 'react-hook-form'
-import { useModal } from '../../hooks/useModal'
-import _ from 'lodash'
+import { Pagination } from '../pagination'
 import { Body } from './body'
 import { Icon } from '../icon'
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
-import { v4 as uuidv4 } from 'uuid'
-import { Pagination } from '../pagination'
 import { usePagination } from '../../hooks/usePagination'
 import { useFilter } from '../../hooks/useFilter'
+import { useForm } from 'react-hook-form'
+import { useModal } from '../../hooks/useModal'
+import _ from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
 
 export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
 
@@ -137,7 +137,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
         <div className='flex flex-col items-center w-full h-full'>
             <form className='w-full h-full'>
                 {dataHeader && (
-                    <Icon color='text-blue-500 text-2xl' icon={faCirclePlus} onClick={() => {
+                    <Icon color='text-blue-500' size='text-2xl' icon={faCirclePlus} onClick={() => {
                         document.body.style.overflow = 'hidden'
                         setIsVisible(true)
                     }}/>

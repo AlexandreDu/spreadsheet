@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { FormUpload } from '../components/formUpload'
 import { FormTable } from '../components/FormTable'
 import { FullPageModal } from '../components/modals'
+import { Icon } from '../components/icon'
+import { faFile } from "@fortawesome/free-solid-svg-icons"
 import { useModal } from '../hooks/useModal'
-import {useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { apiUrl } from '../apiUrl'
 
@@ -11,13 +13,8 @@ export default function Home() {
   
   const [dataHeader, setDataHeader] = useState(null)
   const [dataBody, setDataBody] = useState(null)
-
-
-  
   const [error, setError] = useState(null)
-
   const {register, handleSubmit } = useForm()
-
   const onSubmit = async (data) => {
     
     let formData = new FormData()
@@ -90,10 +87,10 @@ export default function Home() {
   }
 
   return (
-    <div className='flex flex-col items-center '>
+    <div className='flex flex-col justify-center items-center h-screen '>
       {dataHeader ? (
-        <div onClick={() => setIsModalVisible(true)}>
-          file
+        <div>
+          <Icon color='text-blue-500 text-2xl' icon={faFile} onClick={() => setIsModalVisible(true)}/>
         </div>
       ) : (
         <FormUpload  
@@ -104,7 +101,6 @@ export default function Home() {
           fileName={fileName}
         />
       )}
-      
       {error && error}
       <FullPageModal
         isVisible={isModalVisible}
