@@ -24,7 +24,7 @@ const upload = multer({
 
 
   const apiRoute = nextConnect({
-    // Handle any other HTTP method
+   
     onError(error, req, res) {
         res.status(501).json({ error: ` ${error.message}` });
       },
@@ -64,13 +64,13 @@ const upload = multer({
         
 
     } catch(err) {
-        console.log('err catch during reading xlsx', err)
+        console.log('err catch during xlsx reading', err)
       
     }
     
     try {
       console.log('rows: ', rows)
-        await fs.unlink(req.files[0].path)
+        // await fs.unlink(req.files[0].path)
         res.status(200).json({ rows: rows });
     } catch(err) {
         console.log('err catch during unlink file: ', err)
