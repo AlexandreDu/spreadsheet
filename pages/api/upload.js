@@ -8,7 +8,7 @@ const fs = require('fs').promises
 const upload = multer({
     storage: multer.diskStorage({
     
-      destination: './uploads',
+      //destination: './uploads',
       
       filename: (req, file, cb) => cb(null, file.originalname + '-' + Date.now()),
       
