@@ -7,9 +7,7 @@ const fs = require('fs').promises
 
 const upload = multer({
     storage: multer.diskStorage({
-    
-      //destination: './uploads',
-      
+
       filename: (req, file, cb) => cb(null, file.originalname + '-' + Date.now()),
       
     }),
@@ -67,15 +65,10 @@ const upload = multer({
         console.log('err catch during xlsx reading', err)
       
     }
-    
-    try {
-      console.log('rows: ', rows)
-        // await fs.unlink(req.files[0].path)
-        res.status(200).json({ rows: rows });
-    } catch(err) {
-        console.log('err catch during unlink file: ', err)
-    }
 
+    res.status(200).json({ rows: rows });
+    
+    
   })
 
   
