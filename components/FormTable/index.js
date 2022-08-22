@@ -30,7 +30,6 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
         let isCheckedCopy = _.cloneDeep(isChecked)
 
         let indexToUpdate = dataBodyCopy.findIndex(row => {
-            console.log('row.id === id: ', row.id === id)
             return row.id === id
         })
         
@@ -73,7 +72,6 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
                     dataBodyCopy.forEach(({rowValues}) => {
                         if(rowValues[cellIndex] === cellValue) valueFound++
                     })
-                    console.log('valueFound', valueFound)
                     if(indexToRemove !== -1 && valueFound <= 1) {
                         isCheckedCopy[cellIndex].splice(indexToRemove, 1)
                     }
@@ -120,7 +118,7 @@ export const FormTable = ({dataHeader, dataBody, setDataBody}) => {
     
     const [isVisible, setIsVisible, toggle] = useModal()
    
-    const { handleSubmit: handleAddLine, reset: resetAddLine, control: controllAddLine, formState: { errors: errorsAddLine }, register: registerAddLine, getValues: getValuesAddLine } = useForm()
+    const { reset: resetAddLine, register: registerAddLine, getValues: getValuesAddLine } = useForm()
 
    
     // filter

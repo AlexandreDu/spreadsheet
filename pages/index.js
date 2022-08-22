@@ -7,7 +7,7 @@ import { faFile } from "@fortawesome/free-solid-svg-icons"
 import { useModal } from '../hooks/useModal'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-import { apiUrl } from '../apiUrl'
+import { apiEndPoints } from '../apiEndPoints'
 
 export default function Home() {
   
@@ -25,7 +25,7 @@ export default function Home() {
       setError(null)
       const res = await axios({
         method: 'post',
-        url: apiUrl.upload,
+        url: apiEndPoints.upload,
         headers: { 
           'content-type': 'multipart/form-data' 
         },
@@ -102,7 +102,7 @@ export default function Home() {
           error={error}
         />
       )}
-      
+
       <FullPageModal
         isVisible={isModalVisible}
         onClickMinus={handleClickMinus}
